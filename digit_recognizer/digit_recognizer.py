@@ -10,9 +10,9 @@ from sklearn.svm import SVC
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import pyplot as plt
 
-DATA_DIR = "/home/asu/Projects/kaggle/digit_recognizer/data/"
+DATA_DIR = "data/"
 TRAINING_DATA = DATA_DIR + "train.csv"
-TUNING_DIR = "/home/asu/Projects/kaggle/digit_recognizer/tuning/"
+TUNING_DIR = "tuning/"
 LABEL_COLUMN = 0
 FIRST_DATA_COLUMN = 1
 
@@ -121,6 +121,6 @@ def SVM(Xtrain, ytrain, Xtest, ytest):
 
 if __name__ == '__main__':
     Xtrain, ytrain, Xtest, ytest = readData(TRAINING_DATA)
-    neural_net(Xtrain, ytrain, Xtest, ytest)
+    neural_net(Xtrain, ytrain)
     logistic_model(Xtrain, ytrain, Xtest, ytest)
     SVM(Xtrain, ytrain, Xtest, ytest)
