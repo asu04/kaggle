@@ -86,28 +86,29 @@ def logistic_model(Xtrain, ytrain, Xtest, ytest):
     # regularization range of [0.03,0.3,3,30,300]
     # Best regulariation: 0.3
 
-    # parameters = {'C': [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100, 300, 1000]}
-    parameters = {'C':[0.1,1,10]}
+    parameters = {'C': [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100, 300, 1000]}
 
     logit = LogisticRegression(n_jobs = -1, solver = 'sag')
     fitted_model = GridSearchCV(estimator = logit, param_grid = parameters, n_jobs = -1)
     fitted_model.fit(Xtrain, ytrain)
     return fitted_model
 
+@writeAndPlot
 def neural_net(Xtrain, ytrain):
     '''Neural network'''
 
     # Clocking in at about 96.5% for a 1 hidden layer with 500 nodes
     # start = time.time()
 
-    parameters = {'alpha': [0.000001, 0.00001, 0.0001, 0.001, 0.01]}
+    parameters = {'alpha': [0.000001, 0.00001, 0.0001, 0.001, 0.01], 'hidden_layer_sizes': [(100,),(500,),(1000,)], 'max_iter': [200,500,1000]}
 
-    network = MLPClassifier((500,), activation="logistic", max_iter=500, early_stopping = True,
+    network = MLPClassifier(activation="logistic", early_stopping = True,
             validation_fraction = 0.1)
     fitted_model = GridSearchCV(estimator = network, param_grid = parameters, n_jobs = -1)
     fitted_model.fit(Xtrain, ytrain)
     return network
 
+@writeAndPlot
 def SVM(Xtrain, ytrain, Xtest, ytest):
     '''One v rest SVM'''
 
@@ -120,3 +121,6 @@ def SVM(Xtrain, ytrain, Xtest, ytest):
 
 if __name__ == '__main__':
     Xtrain, ytrain, Xtest, ytest = readData(TRAINING_DATA)
+    neural_net(Xtrain, ytrain, Xtest, ytest)
+    logistic_model(Xtrain, ytrain, Xtest, ytest)
+    SVM(Xtrain, ytrain, Xtest, ytest)
