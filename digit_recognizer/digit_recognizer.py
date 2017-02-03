@@ -8,6 +8,7 @@ from sklearn.model_selection import cross_val_score, train_test_split, GridSearc
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import SVC
 from matplotlib.backends.backend_pdf import PdfPages
+from matplotlib import pyplot as plt
 
 DATA_DIR = "/home/asu/Projects/kaggle/digit_recognizer/data/"
 TRAINING_DATA = DATA_DIR + "train.csv"
@@ -62,15 +63,20 @@ def writeAndPlot(function):
         columns = set(plotDataFrame.columns)
         columns.remove('average_test_score')
         pp = PdfPages(TUNING_DIR + function.__name__ + ".pdf")
-        for col in columns:
-            fig, ax = plt.subplots(figsize = (8,6))
-            for i, group in plotDataFrame.groupby([x for x in columns if not (x == col)]):
-                group.plot(x = col, y = 'average_test_score', ax = ax, label = i)
-            plt.legend()
+        if len(columns) == 1:
+            plotDataFrame.plot(x = columns.pop(), y = 'average_test_score');
             pp.savefig()
+        else:
+            for col in columns:
+                fig, ax = plt.subplots(figsize = (8,6))
+                for i, group in plotDataFrame.groupby([x for x in columns if not (x == col)]):
+                    group.plot(x = col, y = 'average_test_score', ax = ax, label = i)
+                plt.legend()
+                pp.savefig()
         pp.close()
 
     return wrapper
+
 
 @writeAndPlot
 def logistic_model(Xtrain, ytrain, Xtest, ytest):
@@ -81,9 +87,9 @@ def logistic_model(Xtrain, ytrain, Xtest, ytest):
     # Best regulariation: 0.3
 
     # parameters = {'C': [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100, 300, 1000]}
-    parameters = {'C': [0.01,0.03,0.1], 'max_iter': [50,100]}
+    parameters = {'C':[0.1,1,10]}
 
-    logit = LogisticRegression(C = 1, n_jobs = -1, solver = 'sag')
+    logit = LogisticRegression(n_jobs = -1, solver = 'sag')
     fitted_model = GridSearchCV(estimator = logit, param_grid = parameters, n_jobs = -1)
     fitted_model.fit(Xtrain, ytrain)
     return fitted_model

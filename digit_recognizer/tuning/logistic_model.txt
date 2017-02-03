@@ -1,0 +1,16 @@
+{
+"warm_start": false, 
+"C": 1, 
+"n_jobs": -1, 
+"verbose": 0, 
+"intercept_scaling": 1, 
+"fit_intercept": true, 
+"max_iter": 100, 
+"penalty": "l2", 
+"multi_class": "ovr", 
+"random_state": null, 
+"dual": false, 
+"tol": 0.0001, 
+"solver": "sag", 
+"class_weight": null
+}
