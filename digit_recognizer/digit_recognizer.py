@@ -106,7 +106,7 @@ def neural_net(Xtrain, ytrain):
             validation_fraction = 0.1)
     fitted_model = GridSearchCV(estimator = network, param_grid = parameters, n_jobs = -1)
     fitted_model.fit(Xtrain, ytrain)
-    return network
+    return fitted_model
 
 @writeAndPlot
 def SVM(Xtrain, ytrain, Xtest, ytest):
