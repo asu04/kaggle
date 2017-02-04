@@ -1,0 +1,16 @@
+{
+"kernel": "rbf", 
+"C": 30, 
+"verbose": false, 
+"probability": false, 
+"degree": 3, 
+"shrinking": true, 
+"max_iter": -1, 
+"decision_function_shape": null, 
+"random_state": null, 
+"tol": 0.001, 
+"cache_size": 200, 
+"coef0": 0.0, 
+"gamma": 0.03, 
+"class_weight": null
+}

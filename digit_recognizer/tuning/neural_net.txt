@@ -1,0 +1,25 @@
+{
+"beta_1": 0.9, 
+"warm_start": false, 
+"beta_2": 0.999, 
+"shuffle": true, 
+"verbose": false, 
+"nesterovs_momentum": true, 
+"hidden_layer_sizes": [
+1000
+], 
+"epsilon": 1e-08, 
+"activation": "logistic", 
+"max_iter": 500, 
+"batch_size": "auto", 
+"power_t": 0.5, 
+"random_state": null, 
+"learning_rate_init": 0.001, 
+"tol": 0.0001, 
+"validation_fraction": 0.1, 
+"alpha": 1e-06, 
+"solver": "adam", 
+"momentum": 0.9, 
+"learning_rate": "constant", 
+"early_stopping": true
+}

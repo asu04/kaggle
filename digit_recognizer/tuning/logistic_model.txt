@@ -1,6 +1,6 @@
 {
 "warm_start": false, 
-"C": 1, 
+"C": 0.3, 
 "n_jobs": -1, 
 "verbose": 0, 
 "intercept_scaling": 1, 
