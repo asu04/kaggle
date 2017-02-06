@@ -6,6 +6,7 @@ from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score, train_test_split, GridSearchCV
 from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import VotingClassifier
 from sklearn.svm import SVC
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import pyplot as plt
@@ -100,7 +101,8 @@ def neural_net(Xtrain, ytrain):
     # Clocking in at about 96.5% for a 1 hidden layer with 500 nodes
     # start = time.time()
 
-    parameters = {'alpha': [0.000001, 0.00001, 0.0001, 0.001, 0.01], 'hidden_layer_sizes': [(100,),(500,),(1000,)], 'max_iter': [200,500,1000]}
+    parameters = {'alpha': [0.000001, 0.00001, 0.0001, 0.001, 0.01], 'hidden_layer_sizes': [(100,),(500,),(1000,)],
+            'max_iter': [200,500,1000]}
 
     network = MLPClassifier(activation="logistic", early_stopping = True,
             validation_fraction = 0.1)
@@ -121,6 +123,14 @@ def SVM(Xtrain, ytrain, Xtest, ytest):
 
 if __name__ == '__main__':
     Xtrain, ytrain, Xtest, ytest = readData(TRAINING_DATA)
-    neural_net(Xtrain, ytrain)
-    logistic_model(Xtrain, ytrain, Xtest, ytest)
-    SVM(Xtrain, ytrain, Xtest, ytest)
+    # neural_net(Xtrain, ytrain)
+    # logistic_model(Xtrain, ytrain, Xtest, ytest)
+    # SVM(Xtrain, ytrain, Xtest, ytest)
+    svm = SVC(C=30, cache_size = 5000, gamma = 0.03, kernel = 'rbf')
+    logit = LogisticRegression(C = 0.3, multi_class = "ovr", solver = "sag", n_jobs = 4,
+            max_iter = 200)
+    neuralNet = MLPClassifier(activation="logistic", early_stopping = True,
+            validation_fraction = 0.1, hidden_layer_sizes = (1000,), alpha = 0.000001,
+            max_iter = 500)
+    voting = VotingClassifier([("svm", svm), ("logit", logit), ("neuralNet", neuralNet)], n_jobs = -1, voting='soft').fit(Xtrain, ytrain)
+    voting.score(Xtest, ytest)
